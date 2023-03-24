@@ -1,8 +1,15 @@
-class Person
-  attr_accessor :name, :age
-  attr_reader :id
+class Nameable
+  def correct_name
+    raise NotImplementedError, 'This method needs to be implemented in a subclass'
+  end
+end
+
+class Person < Nameable
+  attr_reader :id, :age
+  attr_accessor :name
 
   def initialize(age, parent_permission: true, name: 'Unknown')
+    super()
     @id = rand(1..1000)
     @name = name
     @age = age
@@ -11,6 +18,10 @@ class Person
 
   def can_use_services?
     is_of_age? || @parent_permission
+  end
+
+  def correct_name
+    @name
   end
 
   private
