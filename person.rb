@@ -30,6 +30,10 @@ class Person < Nameable
   def of_age?
     @age >= 18
   end
+
+  def add_rental(book, date)
+    Rental.new(date, book, self)
+  end
 end
 
 class Decorator < Nameable
@@ -53,9 +57,5 @@ class TrimmerDecorator < Decorator
   def correct_name
     original_name = @nameable.correct_name
     original_name.length > 10 ? original_name[0..9] : original_name
-  end
-
-  def add_rental(rental)
-    @rentals << rental
   end
 end
