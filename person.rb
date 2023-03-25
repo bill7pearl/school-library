@@ -6,7 +6,7 @@ end
 
 class Person < Nameable
   attr_reader :id, :age
-  attr_accessor :name
+  attr_accessor :name, :parent_permission, :rentals
 
   def initialize(age, parent_permission: true, name: 'Unknown')
     super()
@@ -14,6 +14,7 @@ class Person < Nameable
     @name = name
     @age = age
     @parent_permission = parent_permission
+    @rentals = []
   end
 
   def can_use_services?
@@ -52,5 +53,9 @@ class TrimmerDecorator < Decorator
   def correct_name
     original_name = @nameable.correct_name
     original_name.length > 10 ? original_name[0..9] : original_name
+  end
+
+  def add_rental(rental)
+    @rentals << rental
   end
 end
