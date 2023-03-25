@@ -1,14 +1,14 @@
 class Nameable
   def correct_name
-    raise NotImplementedError, 'This method needs to be implemented in a subclass'
+    raise NotImplementedError, 'Correct name'
   end
 end
 
 class Person < Nameable
-  attr_reader :id, :age
-  attr_accessor :name, :parent_permission, :rentals
+  attr_reader :id
+  attr_accessor :name, :age, :parent_permission, :rentals
 
-  def initialize(age, parent_permission: true, name: 'Unknown')
+  def initialize(name, age, parent_permission: true)
     super()
     @id = rand(1..1000)
     @name = name
@@ -18,7 +18,7 @@ class Person < Nameable
   end
 
   def can_use_services?
-    is_of_age? || @parent_permission
+    of_age? || @parent_permission
   end
 
   def correct_name
@@ -36,7 +36,7 @@ class Person < Nameable
   end
 end
 
-class Decorator < Nameable
+class NameDecorator < Nameable
   def initialize(nameable)
     super()
     @nameable = nameable
@@ -47,15 +47,17 @@ class Decorator < Nameable
   end
 end
 
-class CapitalizeDecorator < Decorator
+person = Person.new(28, 'Bill')
+puts person.correct_name
+
+class CapitalizeDecorator < NameDecorator
   def correct_name
     @nameable.correct_name.capitalize
   end
 end
 
-class TrimmerDecorator < Decorator
+class TrimmerDecorator < NameDecorator
   def correct_name
-    original_name = @nameable.correct_name
-    original_name.length > 10 ? original_name[0..9] : original_name
+    @nameable.correct_name[0...10]
   end
 end
